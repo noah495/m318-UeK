@@ -14,7 +14,7 @@ public class ITransport {
 
     public Stations getStations(String query) throws IOException {
         String jsonText;
-        jsonText = httpClient.doRequest(baseUrl + "locations?query=" + query + "&type=station");
+        jsonText = httpClient.doRequest(baseUrl + "locations?query=" + transformRequest(query) + "&type=station");
 
         ObjectMapper objectMapper = new ObjectMapper();
         Stations stations = null;
@@ -29,7 +29,7 @@ public class ITransport {
 
     public Connections getConnections(String startStation, String endStation) throws IOException{
         String jsonText;
-        jsonText = httpClient.doRequest(baseUrl + "connections?from=" + startStation + "&to=" + endStation);
+        jsonText = httpClient.doRequest(baseUrl + "connections?from=" + transformRequest(startStation) + "&to=" + transformRequest(endStation));
 
         ObjectMapper objectMapper = new ObjectMapper();
         Connections connections = null;
@@ -42,10 +42,10 @@ public class ITransport {
         return connections;
     }
 
-
+//TODO: connections by Time not working
     public Connections getConnectionsByTime(String startStation, String endStation, String date, String time) throws IOException {
         String jsonText;
-        jsonText = httpClient.doRequest(baseUrl + "connections?from=" + startStation + "&to=" + endStation + "&date=" + date + "&time" + time);
+        jsonText = httpClient.doRequest(baseUrl + "connections?from=" + transformRequest(startStation) + "&to=" + transformRequest(endStation) + "&date=" + date + "&time" + time);
 
         ObjectMapper objectMapper = new ObjectMapper();
         Connections connections = null;
@@ -60,7 +60,7 @@ public class ITransport {
 
     public StationBoardRoot getStationBoard(String stationName) throws IOException {
         String jsonText;
-        jsonText = httpClient.doRequest(baseUrl + "stationboard?station=" + stationName);
+        jsonText = httpClient.doRequest(baseUrl + "stationboard?station=" + transformRequest(stationName));
 
         ObjectMapper objectMapper = new ObjectMapper();
         StationBoardRoot stationBoardRoot = null;
@@ -72,6 +72,8 @@ public class ITransport {
         }
         return stationBoardRoot;
     }
+
+    private String transformRequest(String request) {
+        return request.replaceAll("\\s+", "%20");
+    }
 }
-
-

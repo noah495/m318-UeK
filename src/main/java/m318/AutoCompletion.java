@@ -12,6 +12,7 @@ public class AutoCompletion {
     public ArrayList<Station> stationList = new ArrayList<Station>();
 
     public ArrayList<Station> getRecommendedStations(String query) throws IOException {
+
         if (stationList.isEmpty()) {
             Stations stations = iTransport.getStations(query);
             stationList.addAll(stations.stationsList);
