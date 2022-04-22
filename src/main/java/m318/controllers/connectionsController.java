@@ -62,7 +62,6 @@ public class connectionsController {
     @FXML
     JFXListView<String> toStationCompletionList;
 
-
     public void getConnections() throws IOException {
         if (startStation.getText().isEmpty() || endStation.getText().isEmpty()) {
             fromInputError.setVisible(startStation.getText().isEmpty());
@@ -250,7 +249,6 @@ public class connectionsController {
                 gridPaneMail.add(closeBtn, 1,1);
                 gridPaneMail.add(mailAdr,0 ,0,2,1);
 
-
                 popUp.getContent().add(gridPaneMail);
 
                 popUp.show(mailButton.getScene().getWindow());
@@ -275,5 +273,4 @@ public class connectionsController {
         stage.setScene(scene);
         stage.show();
     }
-
 }

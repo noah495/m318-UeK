@@ -65,10 +65,6 @@ public class stationBoardController {
         }
     }
 
-
-
-
-
     public void getStationText(KeyEvent keyEvent) throws IOException {
         AutoCompletion autoCompletion = new AutoCompletion();
 
@@ -145,5 +141,4 @@ public class stationBoardController {
         stage.setScene(scene);
         stage.show();
     }
-
 }

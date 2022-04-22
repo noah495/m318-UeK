@@ -25,8 +25,6 @@ import m318.wrapper.entities.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class locationsController {
@@ -112,7 +110,6 @@ public class locationsController {
         }
         return false;
     }
-
 
     public void loadPage(ActionEvent event) throws IOException {
         stage = (Stage) searchButton.getScene().getWindow();
