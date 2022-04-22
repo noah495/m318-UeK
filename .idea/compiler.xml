@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="m318-Transport" target="1.5" />
+      <module name="m318-Transport" target="6" />
     </bytecodeTargetLevel>
   </component>
 </project>

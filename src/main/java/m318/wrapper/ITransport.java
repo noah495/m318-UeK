@@ -42,11 +42,9 @@ public class ITransport {
         return connections;
     }
 
-//TODO: connections by Time not working
     public Connections getConnectionsByTime(String startStation, String endStation, String date, String time) throws IOException {
         String jsonText;
-        jsonText = httpClient.doRequest(baseUrl + "connections?from=" + transformRequest(startStation) + "&to=" + transformRequest(endStation) + "&date=" + date + "&time" + time);
-
+        jsonText = httpClient.doRequest(baseUrl + "connections?from=" + transformRequest(startStation) + "&to=" + transformRequest(endStation) + "&date=" + date + "&time=" + time);
         ObjectMapper objectMapper = new ObjectMapper();
         Connections connections = null;
 

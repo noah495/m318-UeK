@@ -1,7 +1,11 @@
 package m318.controllers;
 
 import com.jfoenix.controls.JFXListView;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -12,6 +16,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import m318.AutoCompletion;
 import m318.wrapper.ITransport;
 import m318.wrapper.entities.Station;
@@ -25,25 +30,44 @@ public class stationBoardController {
 
     ITransport iTransport = new ITransport();
 
+    Stage stage;
+    Parent root;
+
     @FXML
     TextField stationName;
     @FXML
+    Label invalidInputLabel;
+    @FXML
     Button searchButton;
     @FXML
-    ListView<GridPane> stationBoardList;
+    ListView<Object> stationBoardList;
     @FXML
     JFXListView<String> stationCompletionList;
 
     public void getStationBoard() throws IOException {
-        stationBoardList.getItems().clear();
-        StationBoardRoot stationBoardRoot = iTransport.getStationBoard(stationName.getText());
+        if(stationName.getText().isEmpty()){
+            invalidInputLabel.setVisible(true);
+        }
+        else{
+            invalidInputLabel.setVisible(false);
 
-        for (StationBoard s : stationBoardRoot.StationBoard){
-            GridPane gridPane = getGridPane(s);
-
-            stationBoardList.getItems().add(gridPane);
+            stationBoardList.getItems().clear();
+            StationBoardRoot stationBoardRoot = iTransport.getStationBoard(stationName.getText());
+            if(stationBoardRoot.StationBoard.isEmpty()){
+                stationBoardList.getItems().add("No Results Found :(");
+            }
+            else{
+                for (StationBoard s : stationBoardRoot.StationBoard){
+                    GridPane gridPane = getGridPane(s);
+                    stationBoardList.getItems().add(gridPane);
+                }
+            }
         }
     }
+
+
+
+
 
     public void getStationText(KeyEvent keyEvent) throws IOException {
         AutoCompletion autoCompletion = new AutoCompletion();
@@ -54,11 +78,7 @@ public class stationBoardController {
         for (Station s : stations) {
             stationCompletionList.getItems().add(s.Name);
         }
-        if (autoCompletion.stationList.isEmpty()) {
-            stationCompletionList.setVisible(false);
-        } else {
-            stationCompletionList.setVisible(true);
-        }
+        stationCompletionList.setVisible(!autoCompletion.stationList.isEmpty());
     }
 
     public void recommendedStationClicked(MouseEvent mouseEvent) {
@@ -106,6 +126,24 @@ public class stationBoardController {
         gridPane.add(arrowLabel,2,1);
         arrowLabel.setTextAlignment(TextAlignment.CENTER);
         return gridPane;
+    }
+
+    public void loadPage(ActionEvent event) throws IOException {
+        stage = (Stage) searchButton.getScene().getWindow();
+        String menuItem = event.getSource().toString();
+        if (menuItem.contains("connections")) {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("connections.fxml"));
+        }
+        if (menuItem.contains("locations")) {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("locations.fxml"));
+        }
+        if (menuItem.contains("stationBoard")) {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("stationBoard.fxml"));
+        }
+
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
